@@ -30,10 +30,10 @@ jobs:
           curl -L https://github.com/jlambert360/FPM-AppImage/releases/latest/download/Faster_Project_Plus-x86-64.AppImage > Faster_Project_Plus-x86-64.AppImage
           curl -L https://github.com/jlambert360/FPM-AppImage/releases/latest/download/Launcher.tar.gz > Launcher.tar.gz
           curl -L https://github.com/jlambert360/FPM-AppImage/releases/latest/download/ProjectPlusSd2.29.tar.gz > ProjectPlusSd2.29.tar.gz
-          SHA = $(sha256sum Faster_Project_Plus-x86-64.AppImage)
-          SHA = $(sha256sum Launcher.tar.gz)
-          SHA = $(sha256sum ProjectPlusSd$TAGNAME.tar.gz)
-          git checkout --quiet "$(git rev-list -n 1 v$TAGNAME)"
+          SHA="$(sha256sum Faster_Project_Plus-x86-64.AppImage)"
+          SHA="$(sha256sum Launcher.tar.gz)"
+          SHA="$(sha256sum ProjectPlusSd$TAGNAME.tar.gz)"
+          PKGVER="$(git describe --long --tags | sed -e 's/-\([^-]*-g[^-]*\)$/-r\1/' -e 's/-/./g')"
 
           sed -i "/_tagname=/c\_tagname=\'$TAGNAME\'" ./../PKGBUILD
           sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./../PKGBUILD
