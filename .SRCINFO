@@ -42,6 +42,6 @@ pkgbase = project-plus-netplay
 	source = ProjectPlusSdv2.29.tar.gz::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v2.29
 	source = ProjectPlusSdv2.29.tar.gz::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v2.29
 	source = ProjectPlusSdv2.29.tar.gz::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v2.29
-	sha512sums = 
+	sha512sums = SKIP
 
 pkgname = project-plus-netplay
