@@ -46,8 +46,6 @@ jobs:
     steps:
       - name: checkout repo content
         uses: actions/checkout@v2
-        with:
-          ref: 'master'
 
       - name: Setup SSH Keys and known_hosts
         env:
