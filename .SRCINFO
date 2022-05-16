@@ -1,6 +1,6 @@
 pkgbase = project-plus-netplay
 	pkgdesc = A Mod of Super Smash Bros. Brawl with Netplay.
-	pkgver = 
+	pkgver = v2.29.r0.g59e9409
 	pkgrel = 1
 	url = https://projectplusgame.com/
 	arch = x86_64
@@ -39,9 +39,9 @@ pkgbase = project-plus-netplay
 	depends = zlib
 	optdepends = pulseaudio: PulseAudio backend
 	options = !strip
-	source = Faster_Project_Plus-x86-64.AppImage::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v
-	source = Faster_Project_Plus-x86-64.AppImage::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v
-	source = Faster_Project_Plus-x86-64.AppImage::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v
+	source = slippi-online-git::git+https://github.com/project-slippi/Ishiiruka.git#tag=v2.29
+	source = slippi-online-git::git+https://github.com/project-slippi/Ishiiruka.git#tag=v2.29
+	source = slippi-online-git::git+https://github.com/project-slippi/Ishiiruka.git#tag=v2.29
 	sha512sums = 
 	sha512sums = 
 	sha512sums = 
