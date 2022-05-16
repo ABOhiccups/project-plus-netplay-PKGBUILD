@@ -21,17 +21,9 @@ jobs:
           sed -i "/_tagname=/c\_tagname=\'$TAGNAME\'" ./../PKGBUILD
           git checkout --quiet "$(git rev-list -n 1 $TAGNAME)"
           PKGVER="$(git describe --long --tags | sed -e 's/-\([^-]*-g[^-]*\)$/-r\1/' -e 's/-/./g')"
-          curl -L https://github.com/jlambert360/FPM-AppImage/releases/latest/download/Faster_Project_Plus-x86-64.AppImage > Faster_Project_Plus-x86-64.AppImage
-          curl -L https://github.com/jlambert360/FPM-AppImage/releases/latest/download/Launcher.tar.gz > Launcher.tar.gz
-          curl -L https://github.com/jlambert360/FPM-AppImage/releases/latest/download/ProjectPlusSd2.29.tar.gz > ProjectPlusSd$TAGNAME.tar.gz
-          SHA="$(sha256sum *.AppImage)"
-          SHA="$(sha256sum *.tar.gz)"
           sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./../PKGBUILD
           sed -i "/pkgver =/c\	pkgver = $PKGVER" ./../.SRCINFO
-          sed -i "/sha512sums=/c\sha512sums=(\'$SHA\')" ./../PKGBUILD
-          sed -i "/sha512sums =/c\	sha512sums = $SHA" ./../.SRCINFO
-          sed -i "/source =/c\	source = Faster_Project_Plus-x86-64.AppImage::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v$TAGNAME" ./../.SRCINFO
-
+          sed -i "/source =/c\	source = slippi-online-git::git+https://github.com/project-slippi/Ishiiruka.git#tag=$TAGNAME" ./../.SRCINFO
           popd > /dev/null
 
       - name: push changes to repo
