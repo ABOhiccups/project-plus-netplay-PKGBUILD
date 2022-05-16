@@ -1,0 +1,87 @@
+name: Update repo's and AUR's PKGBUILD
+
+on:
+  push:
+  schedule: 
+    - cron:  '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v2
+
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: install dependencies
+        run: |
+          pip install shyaml
+
+      - name: update PKGBUILD
+        run: |
+          git clone https://github.com/jlambert360/FPM-AppImage
+          pushd project-plus-netplay > /dev/null
+
+          git checkout --quiet "$(git rev-list -n 1 v$TAGNAME)"
+          PKGVER="$(git describe --long --tags | sed -e 's/-\([^-]*-g[^-]*\)$/-r\1/' -e 's/-/./g')"
+
+          sed -i "/_tagname=/c\_tagname=\'$TAGNAME\'" ./../PKGBUILD
+          sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./../PKGBUILD
+          sed -i "/pkgver =/c\	pkgver = $PKGVER" ./../.SRCINFO
+          sed -i "/sha512sums=/c\sha512sums=(\'$SHA\')" ./../PKGBUILD
+          sed -i "/sha512sums =/c\	sha512sums = $SHA" ./../.SRCINFO
+          sed -i "/source =/c\	source = Faster_Project_Plus-x86-64.AppImage::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v$TAGNAME" ./../.SRCINFO
+
+          popd > /dev/null
+
+      - name: push changes to repo
+        run: |
+          git config --global user.name 'ABOhiccups'
+          git config --global user.email '17691106+ABOhiccups@users.noreply.github.com'
+          git add PKGBUILD .SRCINFO
+          if [[ `git status --porcelain` ]]; then
+            git commit -m "automatic: updated PKGBUILD (repo)"
+            git push
+          else
+            echo "Nothing to commit! (repo)"
+          fi
+
+  update-aur:
+    needs: update-repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v2
+        with:
+          ref: 'master'
+
+      - name: Setup SSH Keys and known_hosts
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.AUR_SSH_PRIVATE_KEY }}"
+
+      - name: push changes to aur
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+            git clone ssh://aur@aur.archlinux.org/project-plus-netplay.git /tmp/aur
+            cp {PKGBUILD,.SRCINFO} /tmp/aur/
+            cd /tmp/aur
+            git config --global user.name 'ABOhiccups (github workflow https://github.com/ABOhiccups/project-plus-netplay-PKGBUILD)'
+            git config --global user.email '17691106+ABOhiccups@users.noreply.github.com'
+            git add PKGBUILD .SRCINFO
+            if [[ `git status --porcelain` ]]; then
+              git commit -m "automatic: updated PKGBUILD (AUR)"
+              git push
+            else
+              echo "Nothing to commit! (AUR)"
+            fi
