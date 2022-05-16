@@ -1,7 +1,7 @@
 # Maintainer: ABOhiccups <https://twitter.com/ABOhiccups>
 pkgname=project-plus-netplay
-_tagname='2.29'
-pkgver=2.29
+_tagname=''
+pkgver=''
 pkgrel=1
 pkgdesc="A Mod of Super Smash Bros. Brawl with Netplay."
 arch=('x86_64')
@@ -20,7 +20,7 @@ source=(
 	"$_launcher::$_url/download/v$_tagname/$_launcher"
 	"$_sd::$_url/download/v$_tagname/$_sd"
 )
-sha512sums=('0b6e30875e1afd735e62022180cf87f801ac12740539e7363b1fd6379341a7df9c6ecc8731142011d206c43b005e23fba530b3404d36a72e6181af10f4f06e7a'
+sha512sums=('')
 	'8f392f9ea39bc61b4afb704ddc20e29a603ce6c3947b227ec095f68e541c298dd4cc7cff30454ed3c3562206dff2d5399eb241a40bc0ea6f09dda3bbaf434d6e'
 	'b21ebcdd30c26a24841201b4264a2a5a4cab1800c3a887a99a9320db7700ef6a0a37b62ab7ae95e1789797dff93e33c0f30968a584bf9b19044f60f51d21f5b0')
 
