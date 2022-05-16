@@ -39,9 +39,9 @@ pkgbase = project-plus-netplay
 	depends = zlib
 	optdepends = pulseaudio: PulseAudio backend
 	options = !strip
-	source = slippi-online-git::git+https://github.com/project-slippi/Ishiiruka.git#tag=v2.29
-	source = slippi-online-git::git+https://github.com/project-slippi/Ishiiruka.git#tag=v2.29
-	source = slippi-online-git::git+https://github.com/project-slippi/Ishiiruka.git#tag=v2.29
+	source = ProjectPlusSdv2.29.tar.gz::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v2.29
+	source = ProjectPlusSdv2.29.tar.gz::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v2.29
+	source = ProjectPlusSdv2.29.tar.gz::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v2.29
 	sha512sums = 
 	sha512sums = 
 	sha512sums = 
