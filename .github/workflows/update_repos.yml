@@ -25,7 +25,17 @@ jobs:
       - name: update PKGBUILD
         run: |
           git clone https://github.com/jlambert360/FPM-AppImage
-          pushd FPM-AppImage > /dev/null
+          pushd project-plus-netplay > /dev/null
+
+          git checkout --quiet "$(git rev-list -n 1 v$TAGNAME)"
+          PKGVER="$(git describe --long --tags | sed -e 's/-\([^-]*-g[^-]*\)$/-r\1/' -e 's/-/./g')"
+
+          sed -i "/_tagname=/c\_tagname=\'$TAGNAME\'" ./../PKGBUILD
+          sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./../PKGBUILD
+          sed -i "/pkgver =/c\	pkgver = $PKGVER" ./../.SRCINFO
+          sed -i "/sha512sums=/c\sha512sums=(\'$SHA\')" ./../PKGBUILD
+          sed -i "/sha512sums =/c\	sha512sums = $SHA" ./../.SRCINFO
+          sed -i "/source =/c\	source = Faster_Project_Plus-x86-64.AppImage::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v$TAGNAME" ./../.SRCINFO
 
           popd > /dev/null
 
