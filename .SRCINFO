@@ -39,7 +39,7 @@ pkgbase = project-plus-netplay
 	depends = zlib
 	optdepends = pulseaudio: PulseAudio backend
 	options = !strip
-	source = ProjectPlusSdv2.29.tar.gz::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v2.29
+	source = Faster_Project_Plus-x86-64.AppImage::git+https://github.com/jlambert360/FPM-AppImage.git#tag=v2.29
 	sha512sums = SKIP
 
 pkgname = project-plus-netplay
