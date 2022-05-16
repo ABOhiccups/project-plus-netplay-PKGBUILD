@@ -20,9 +20,7 @@ source=(
 	"$_launcher::$_url/download/v$_tagname/$_launcher"
 	"$_sd::$_url/download/v$_tagname/$_sd"
 )
-sha512sums=('')
-	'8f392f9ea39bc61b4afb704ddc20e29a603ce6c3947b227ec095f68e541c298dd4cc7cff30454ed3c3562206dff2d5399eb241a40bc0ea6f09dda3bbaf434d6e'
-	'b21ebcdd30c26a24841201b4264a2a5a4cab1800c3a887a99a9320db7700ef6a0a37b62ab7ae95e1789797dff93e33c0f30968a584bf9b19044f60f51d21f5b0')
+sha512sums=('SKIP')
 
 prepare() {
 	chmod +x "$srcdir/$_package"
