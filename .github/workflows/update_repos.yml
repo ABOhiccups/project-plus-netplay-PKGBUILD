@@ -23,7 +23,9 @@ jobs:
           PKGVER="$(git describe --long --tags | sed -e 's/-\([^-]*-g[^-]*\)$/-r\1/' -e 's/-/./g')"
           sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./../PKGBUILD
           sed -i "/pkgver =/c\	pkgver = $PKGVER" ./../.SRCINFO
-          sed -i "/source =/c\	source = slippi-online-git::git+https://github.com/project-slippi/Ishiiruka.git#tag=$TAGNAME" ./../.SRCINFO
+          sed -i "/source =/c\	source = Faster_Project_Plus-x86-64.AppImage::git+https://github.com/jlambert360/FPM-AppImage.git#tag=$TAGNAME" ./../.SRCINFO
+          sed -i "/source =/c\	source = Launcher.tar.gz::git+https://github.com/jlambert360/FPM-AppImage.git#tag=$TAGNAME" ./../.SRCINFO
+          sed -i "/source =/c\	source = ProjectPlusSd$TAGNAME.tar.gz::git+https://github.com/jlambert360/FPM-AppImage.git#tag=$TAGNAME" ./../.SRCINFO
           popd > /dev/null
 
       - name: push changes to repo
