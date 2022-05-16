@@ -27,9 +27,6 @@ jobs:
           git clone https://github.com/jlambert360/FPM-AppImage
           pushd FPM-AppImage > /dev/null
 
-          git checkout --quiet "$(git rev-list -n 1 v$TAGNAME)"
-          PKGVER="$(git describe --long --tags | sed -e 's/-\([^-]*-g[^-]*\)$/-r\1/' -e 's/-/./g')"
-
           sed -i "/_tagname=/c\_tagname=\'$TAGNAME\'" ./../PKGBUILD
           sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./../PKGBUILD
           sed -i "/pkgver =/c\	pkgver = $PKGVER" ./../.SRCINFO
