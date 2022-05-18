@@ -9,23 +9,41 @@ on:
 jobs:
   update-repo:
     runs-on: ubuntu-latest
+    container: archlinux:latest
     steps:
+      - name: install dependencies
+        run: |
+          pacman -Sy
+          pacman -S git binutils python python-pip --noconfirm
+
       - name: checkout repo content
         uses: actions/checkout@v2
 
+      - name: create user
+        run: |
+          useradd -m abohiccups
+
       - name: update PKGBUILD
         run: |
-          git clone https://github.com/jlambert360/FPM-AppImage
-          pushd FPM-AppImage > /dev/null
+          git clone https://github.com/jlambert360/FPM-AppImage /tmp/FPM-AppImage
+
+          cd /tmp/FPM-AppImage
           TAGNAME="$(git describe --tags --abbrev=0)"
-          TAGNAME1="${TAGNAME:1}"
-          sed -i "/_tagname=/c\_tagname=\'$TAGNAME1\'" ./../PKGBUILD
           git checkout --quiet "$(git rev-list -n 1 $TAGNAME)"
           PKGVER="$(git describe --long --tags | sed -e 's/-\([^-]*-g[^-]*\)$/-r\1/' -e 's/-/./g')"
-          sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./../PKGBUILD
-          sed -i "/pkgver =/c\	pkgver = $PKGVER" ./../.SRCINFO
-          sed -i "/source =/c\	source = Faster_Project_Plus-x86-64.AppImage::git+https://github.com/jlambert360/FPM-AppImage.git#tag=$TAGNAME" ./../.SRCINFO
-          popd > /dev/null
+
+          APPIMAGE_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/Faster_Project_Plus-x86-64.AppImage | sha256sum)"
+          LAUNCHER_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/Launcher.tar.gz | sha256sum)"
+          SD_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/ProjectPlusSd2.29.tar.gz | sha256sum)"
+          cd -
+
+          sed -i "/_tagname=/c\_tagname=\'${TAGNAME:1}\'" ./PKGBUILD
+          sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./PKGBUILD
+          sed -i "/sha256sums=/c\sha256sums=(\'$APPIMAGE_SHA\' \'$LAUNCHER_SHA\' \'$SD_SHA\')" ./PKGBUILD
+
+          chown -R abohiccups:abohiccups .
+          su -c "makepkg --printsrcinfo > .SRCINFO" abohiccups
+          chown -R root:root .
 
       - name: push changes to repo
         run: |
@@ -45,8 +63,6 @@ jobs:
     steps:
       - name: checkout repo content
         uses: actions/checkout@v2
-        with:
-          ref: 'main'
 
       - name: Setup SSH Keys and known_hosts
         env:
