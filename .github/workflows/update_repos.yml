@@ -32,9 +32,12 @@ jobs:
           git checkout --quiet "$(git rev-list -n 1 $TAGNAME)"
           PKGVER="$(git describe --long --tags | sed -e 's/-\([^-]*-g[^-]*\)$/-r\1/' -e 's/-/./g')"
           
-          APPIMAGE_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/Faster_Project_Plus-x86-64.AppImage | sha256sum {var::  -})"
-          LAUNCHER_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/Launcher.tar.gz | sha256sum {var::  -})"
-          SD_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/ProjectPlusSd2.29.tar.gz | sha256sum {var::  -})"
+          APPIMAGE_SHA-="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/Faster_Project_Plus-x86-64.AppImage | sha256sum)"
+          LAUNCHER_SHA-="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/Launcher.tar.gz | sha256sum)"
+          SD_SHA-="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/ProjectPlusSd2.29.tar.gz | sha256sum)"
+          APPIMAGE_SHA="$({var::  -} $APPIMAGE_SHA-)
+          LAUNCHER_SHA="$({var::  -} $LAUNCHER_SHA-)
+          SD_SHA="$({var::  -} $SD_SHA-)
           cd -
 
           sed -i "/_tagname=/c\_tagname=\'${TAGNAME:1}\'" ./PKGBUILD
