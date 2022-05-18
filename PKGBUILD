@@ -2,7 +2,7 @@
 pkgname=project-plus-netplay
 _tagname='2.29'
 pkgver='v2.29.r0.g59e9409'
-pkgrel=1
+pkgrel=2
 pkgdesc="A Mod of Super Smash Bros. Brawl with Netplay."
 arch=('x86_64')
 url="https://projectplusgame.com/"
