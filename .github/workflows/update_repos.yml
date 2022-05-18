@@ -35,9 +35,9 @@ jobs:
           APPIMAGE_SHA1="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/Faster_Project_Plus-x86-64.AppImage | sha256sum)"
           LAUNCHER_SHA1="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/Launcher.tar.gz | sha256sum)"
           SD_SHA1="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/ProjectPlusSd2.29.tar.gz | sha256sum)"
-          APPIMAGE_SHA="${-3:APPIMAGE_SHA1}"
-          LAUNCHER_SHA="${-3:LAUNCHER_SHA1}"
-          SD_SHA="${-3:SD_SHA1}"
+          APPIMAGE_SHA="${APPIMAGE_SHA1::-3}"
+          LAUNCHER_SHA="${LAUNCHER_SHA1::-3}"
+          SD_SHA="${SD_SHA1::-3}"
           cd -
 
           sed -i "/_tagname=/c\_tagname=\'${TAGNAME:1}\'" ./PKGBUILD
