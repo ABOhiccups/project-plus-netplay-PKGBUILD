@@ -28,16 +28,14 @@ jobs:
           git clone https://github.com/jlambert360/FPM-AppImage /tmp/FPM-AppImage
 
           cd /tmp/FPM-AppImage
-          TAGNAME="$(git tag | tail -n1)"
-          git checkout --quiet "$(git rev-list -n 1 $TAGNAME)"
-          PKGVER="$(git describe --long --tags | sed -e 's/-\([^-]*-g[^-]*\)$/-r\1/' -e 's/-/./g')"
+          PKGVER="$(git tag | tail -n1)"
+          git checkout --quiet "$(git rev-list -n 1 $PKGVER)"
 
-          APPIMAGE_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/Faster_Project_Plus-x86-64.AppImage | sha256sum | sed 's/  -//')"
-          LAUNCHER_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/Launcher.tar.gz | sha256sum | sed 's/  -//')"
-          SD_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$TAGNAME/ProjectPlusSd${TAGNAME:1}.tar.gz | sha256sum | sed 's/  -//')"
+          APPIMAGE_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$PKGVER/Faster_Project_Plus-x86-64.AppImage | sha256sum | sed 's/  -//')"
+          LAUNCHER_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$PKGVER/Launcher.tar.gz | sha256sum | sed 's/  -//')"
+          SD_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$PKGVER/ProjectPlusSd${PKGVER:1}.tar.gz | sha256sum | sed 's/  -//')"
           cd -
 
-          sed -i "/_tagname=/c\_tagname=\'${TAGNAME:1}\'" ./PKGBUILD
           sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./PKGBUILD
           sed -i "/sha256sums=/c\sha256sums=(\'$APPIMAGE_SHA\' \'$LAUNCHER_SHA\' \'$SD_SHA\')" ./PKGBUILD
 
