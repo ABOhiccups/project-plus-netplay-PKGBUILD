@@ -29,6 +29,7 @@ jobs:
 
           cd /tmp/FPM-AppImage
           PKGVER="$(git tag | tail -n1)"
+          TAGNAME="$(cat latest-linux.yml | shyaml get-value version)"
           git checkout --quiet "$(git rev-list -n 1 $PKGVER)"
 
           APPIMAGE_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$PKGVER/Faster_Project_Plus-x86-64.AppImage | sha256sum | sed 's/  -//')"
@@ -37,6 +38,7 @@ jobs:
           cd -
 
           sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./PKGBUILD
+          sed -i "/_tagname=/c\_tagname=\'$TAGNAME\'" ./PKGBUILD
           sed -i "/sha256sums=/c\sha256sums=(\'$APPIMAGE_SHA\' \'$LAUNCHER_SHA\' \'$SD_SHA\')" ./PKGBUILD
 
           chown -R abohiccups:abohiccups .
