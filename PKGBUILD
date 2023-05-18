@@ -14,7 +14,7 @@ options=('!strip')
 _url="https://github.com/jlambert360/FPM-AppImage/releases"
 _package="Faster_Project_Plus-x86-64.AppImage"
 _launcher="Launcher.tar.gz"
-_sd="ProjectPlusSd${pkgver:1}.tar.gz"
+_sd="ProjectPlusSd${_tagname%.0}.tar.gz"
 source=(
 	"$_package::$_url/download/$pkgver/$_package"
 	"$_launcher::$_url/download/$pkgver/$_launcher"
