@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: install dependencies
         run: |
-          pacman -Sy
+          pacman -Syyu --noconfirm
           pacman -S git binutils python python-pip --noconfirm
 
       - name: checkout repo content
