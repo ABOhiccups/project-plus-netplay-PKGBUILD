@@ -34,7 +34,7 @@ jobs:
 
           APPIMAGE_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$PKGVER/Faster_Project_Plus-x86-64.AppImage | sha256sum | sed 's/  -//')"
           LAUNCHER_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$PKGVER/Launcher.tar.gz | sha256sum | sed 's/  -//')"
-          SD_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$PKGVER/ProjectPlusSd${TAGNAME%.0}.tar.gz | sha256sum | sed 's/  -//')"
+          SD_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$PKGVER/sd.tar.gz | sha256sum | sed 's/  -//')"
           cd -
 
           sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./PKGBUILD
