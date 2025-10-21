@@ -11,14 +11,10 @@ depends=('alsa-lib' 'bluez-libs' 'cairo' 'curl' 'enet' 'ffmpeg' 'gcc-libs' 'gdk-
 makedepends=('cmake' 'git' 'qt5-base')
 optdepends=('pulseaudio: PulseAudio backend')
 options=('!strip')
-_url="https://github.com/jlambert360/FPM-AppImage/releases"
+_url="https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases"
 _package="Faster_Project_Plus-x86-64.AppImage"
-_launcher="Launcher.tar.gz"
-_sd="sd.tar.gz"
 source=(
-	"$_package::$_url/download/$pkgver/$_package"
-	"$_launcher::$_url/download/$pkgver/$_launcher"
-	"$_sd::$_url/download/$pkgver/$_sd"
+	"$_package::$_url/download/v3.1.5/Project+.v3.1.5.Netplay.Linux.AppImage.zip"
 )
 sha256sums=('ead24e1ecdf024ec80a7f6ba64548a2ae9d32f0d2c867c5d35121f5cdc97742e' '1b9dce2fb0eac3ad8cc809826b3b6bfd4ce30dbfc394eaa586e35dcd356fd189' '389e4025ed3e0a79a1d0646dcc97bbd204fdfad371be72f913f59aa172f531fd')
 
@@ -34,6 +30,4 @@ package() {
 	printf "[Desktop Entry]\nVersion=${pkgver:1}\nName=Project+ Netplay\nComment=A Mod of Super Smash Bros. Brawl with Netplay.\nPath=/usr/bin\nExec=project-plus-netplay\nIcon=project-plus-netplay\nType=Application\nCategories=Game\nKeywords=project+;brawl;netplay\n" > "$pkgdir/usr/share/applications/$pkgname.desktop"
 	install -dm777 "$pkgdir/usr/share/project-plus-netplay/games"
 	touch "/$pkgdir/usr/share/project-plus-netplay/games/Place Brawl ISO here"
-	cp -R "Launcher" "$pkgdir/usr/share/project-plus-netplay"
- 	install -Dm777 "sd.raw" "$pkgdir/usr/share/project-plus-netplay/sd.raw"
 }
