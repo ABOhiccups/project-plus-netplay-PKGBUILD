@@ -32,9 +32,7 @@ jobs:
           TAGNAME="${PKGVER:1}"
           git checkout --quiet "$(git rev-list -n 1 $PKGVER)"
 
-          APPIMAGE_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$PKGVER/Faster_Project_Plus-x86-64.AppImage | sha256sum | sed 's/  -//')"
-          LAUNCHER_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$PKGVER/Launcher.tar.gz | sha256sum | sed 's/  -//')"
-          SD_SHA="$(curl -L https://github.com/jlambert360/FPM-AppImage/releases/download/$PKGVER/sd.tar.gz | sha256sum | sed 's/  -//')"
+          APPIMAGE_SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/v3.1.5/Project+.v3.1.5.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
           cd -
 
           sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./PKGBUILD
