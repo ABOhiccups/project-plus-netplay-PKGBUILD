@@ -28,8 +28,7 @@ jobs:
           git clone https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin /tmp/Project-Plus-Dolphin
 
           cd /tmp/Project-Plus-Dolphin
-          RAW_TAG="$(git tag | tail -n1)"
-          PKGVER="${RAW_TAG%-rc}"
+          PKGVER=$(git tag | tail -n1 | sed 's/-rc$//')
           git checkout --quiet "$(git rev-list -n 1 $PKGVER)"
 
           ZIP_SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$PKGVER/Project+.$PKGVER.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
