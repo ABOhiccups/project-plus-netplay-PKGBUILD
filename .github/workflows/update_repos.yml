@@ -25,19 +25,17 @@ jobs:
 
       - name: update PKGBUILD
         run: |
-          git clone https://github.com/jlambert360/FPM-AppImage /tmp/FPM-AppImage
+          git clone https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin /tmp/Project-Plus-Dolphin
 
-          cd /tmp/FPM-AppImage
+          cd /tmp/Project-Plus-Dolphin
           PKGVER="$(git tag | tail -n1)"
-          TAGNAME="${PKGVER:1}"
           git checkout --quiet "$(git rev-list -n 1 $PKGVER)"
 
-          APPIMAGE_SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/v3.1.5/Project+.v3.1.5.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
+          SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$PKGVER/Project+.$PKGVER.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
           cd -
 
           sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./PKGBUILD
-          sed -i "/_tagname=/c\_tagname=\'$TAGNAME\'" ./PKGBUILD
-          sed -i "/sha256sums=/c\sha256sums=(\'$APPIMAGE_SHA\' \'$LAUNCHER_SHA\' \'$SD_SHA\')" ./PKGBUILD
+          sed -i "/sha256sums=/c\sha256sums=(\'$SHA\')" ./PKGBUILD
 
           chown -R abohiccups:abohiccups .
           su -c "makepkg --printsrcinfo > .SRCINFO" abohiccups
