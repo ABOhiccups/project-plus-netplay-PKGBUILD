@@ -31,11 +31,11 @@ jobs:
           PKGVER="$(git tag | tail -n1)"
           git checkout --quiet "$(git rev-list -n 1 $PKGVER)"
 
-          SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$PKGVER/Project+.$PKGVER.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
+          ZIP_SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$PKGVER/Project+.$PKGVER.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
           cd -
 
           sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./PKGBUILD
-          sed -i "/sha256sums=/c\sha256sums=(\'$SHA\')" ./PKGBUILD
+          sed -i "/sha256sums=/c\sha256sums=(\'$ZIP_SHA\')" ./PKGBUILD
 
           chown -R abohiccups:abohiccups .
           su -c "makepkg --printsrcinfo > .SRCINFO" abohiccups
