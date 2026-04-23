@@ -4,4 +4,4 @@
 
 This repo contains and updates the PKGBUILD for [project-plus-netplay](https://aur.archlinux.org/packages/project-plus-netplay/).
 
-Get more information about Project+ on [projectplusgame.com](https://projectplusgame.com/) or on their [Github repo](https://github.com/jlambert360/FPM-AppImage).
+Get more information about Project+ on [projectplusgame.com](https://projectplusgame.com/) or on their [Github repo](https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin).
