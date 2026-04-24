@@ -29,6 +29,7 @@ jobs:
 
           cd /tmp/Project-Plus-Dolphin
           PKGVER=$(git describe --tags --abbrev=0)
+          echo "Using PKGVER=$PKGVER"
           git checkout --quiet "$(git rev-list -n 1 "$PKGVER")"
 
           ZIP_SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$PKGVER/Project+.$PKGVER.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
