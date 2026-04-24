@@ -28,8 +28,15 @@ jobs:
           git clone https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin /tmp/Project-Plus-Dolphin
 
           cd /tmp/Project-Plus-Dolphin
-          PKGVER=$(git tag | tail -n2 | head -n1 | sed 's/-rc$//')
-          git checkout --quiet "$(git rev-list -n 1 $PKGVER)"
+          PKGVER=$(git tag --sort=version:refname | tail -n2 | head -n1 | sed 's/-rc$//')
+
+          if [ -z "$PKGVER" ]; then
+            echo "Failed to determine PKGVER"
+            exit 1
+          fi
+
+          echo "Using PKGVER=$PKGVER"
+          git checkout --quiet "$(git rev-list -n 1 "$PKGVER")"
 
           ZIP_SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$PKGVER/Project+.$PKGVER.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
           cd -
