@@ -28,10 +28,9 @@ jobs:
           git clone https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin /tmp/Project-Plus-Dolphin
 
           cd /tmp/Project-Plus-Dolphin
-          PKGVER=$(git describe --tags --abbrev=0 | sed 's/-/./g')
           TAG=$(git describe --tags --abbrev=0)
-          git checkout --quiet "$(git rev-list -n 1 "$PKGVER")"
-          git checkout --quiet "$(git rev-list -n 1 "TAG")"
+          PKGVER="${TAG//-/.}"
+          git checkout --quiet "$TAG"
 
           ZIP_SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$TAG/Project+.$TAG.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
           cd -
