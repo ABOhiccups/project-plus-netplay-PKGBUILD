@@ -28,14 +28,16 @@ jobs:
           git clone https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin /tmp/Project-Plus-Dolphin
 
           cd /tmp/Project-Plus-Dolphin
-          PKGVER=$(git describe --tags --abbrev=0)
-          echo "Using PKGVER=$PKGVER"
+          PKGVER=$(git describe --tags --abbrev=0 | sed 's/-/./g')
+          TAG=$(git describe --tags --abbrev=0)
           git checkout --quiet "$(git rev-list -n 1 "$PKGVER")"
+          git checkout --quiet "$(git rev-list -n 1 "TAG")"
 
-          ZIP_SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$PKGVER/Project+.$PKGVER.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
+          ZIP_SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$TAG/Project+.$TAG.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
           cd -
 
           sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./PKGBUILD
+          sed -i "/_tag=/c\_tag=\'$TAG\'" ./PKGBUILD
           sed -i "/sha256sums=/c\sha256sums=(\'$ZIP_SHA\')" ./PKGBUILD
 
           chown -R abohiccups:abohiccups .
