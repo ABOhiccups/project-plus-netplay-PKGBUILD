@@ -2,8 +2,8 @@ name: Update repo's and AUR's PKGBUILD
 
 on:
   push:
-  schedule: 
-    - cron:  '*/5 * * * *'
+  schedule:
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
       - name: install dependencies
         run: |
           pacman -Syyu --noconfirm
-          pacman -S git binutils python python-pip --noconfirm
+          pacman -S git binutils python python-pip curl --noconfirm
 
       - name: checkout repo content
         uses: actions/checkout@v2
@@ -28,25 +28,34 @@ jobs:
           git clone https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin /tmp/Project-Plus-Dolphin
 
           cd /tmp/Project-Plus-Dolphin
+
           TAG=$(git tag | tail -n 2 | head -n 1 | cut -d'-' -f1)
           PKGVER="${TAG//-/.}"
 
+          # Remove one trailing "0" from _tag only
+          TAG_FOR_PKGBUILD="${TAG%0}"
+
           ZIP_SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$TAG/Project+.$TAG.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
+
           cd -
 
-          sed -i "/pkgver=/c\pkgver=\'$PKGVER\'" ./PKGBUILD
-          sed -i "/_tag=/c\_tag=\'$TAG\'" ./PKGBUILD
-          sed -i "/sha256sums=/c\sha256sums=(\'$ZIP_SHA\')" ./PKGBUILD
+          sed -i "/pkgver=/c\pkgver='$PKGVER'" ./PKGBUILD
+          sed -i "/_tag=/c\_tag='$TAG_FOR_PKGBUILD'" ./PKGBUILD
+          sed -i "/sha256sums=/c\sha256sums=('$ZIP_SHA')" ./PKGBUILD
 
           chown -R abohiccups:abohiccups .
+
           su -c "makepkg --printsrcinfo > .SRCINFO" abohiccups
+
           chown -R root:root .
 
       - name: push changes to repo
         run: |
           git config --global user.name 'ABOhiccups'
           git config --global user.email '17691106+ABOhiccups@users.noreply.github.com'
+
           git add PKGBUILD .SRCINFO
+
           if [[ `git status --porcelain` ]]; then
             git commit -m "automatic: updated PKGBUILD (repo)"
             git push
@@ -57,6 +66,7 @@ jobs:
   update-aur:
     needs: update-repo
     runs-on: ubuntu-latest
+
     steps:
       - name: checkout repo content
         uses: actions/checkout@v2
@@ -67,22 +77,29 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
+
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+
           ssh-add - <<< "${{ secrets.AUR_SSH_PRIVATE_KEY }}"
 
       - name: push changes to aur
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
-            git clone ssh://aur@aur.archlinux.org/project-plus-netplay.git /tmp/aur
-            cp {PKGBUILD,.SRCINFO} /tmp/aur/
-            cd /tmp/aur
-            git config --global user.name 'ABOhiccups (github workflow https://github.com/ABOhiccups/project-plus-netplay-PKGBUILD)'
-            git config --global user.email '17691106+ABOhiccups@users.noreply.github.com'
-            git add PKGBUILD .SRCINFO
-            if [[ `git status --porcelain` ]]; then
-              git commit -m "automatic: updated PKGBUILD (AUR)"
-              git push
-            else
-              echo "Nothing to commit! (AUR)"
-            fi
+          git clone ssh://aur@aur.archlinux.org/project-plus-netplay.git /tmp/aur
+
+          cp {PKGBUILD,.SRCINFO} /tmp/aur/
+
+          cd /tmp/aur
+
+          git config --global user.name 'ABOhiccups (github workflow https://github.com/ABOhiccups/project-plus-netplay-PKGBUILD)'
+          git config --global user.email '17691106+ABOhiccups@users.noreply.github.com'
+
+          git add PKGBUILD .SRCINFO
+
+          if [[ `git status --porcelain` ]]; then
+            git commit -m "automatic: updated PKGBUILD (AUR)"
+            git push
+          else
+            echo "Nothing to commit! (AUR)"
+          fi
