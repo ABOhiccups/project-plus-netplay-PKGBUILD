@@ -37,7 +37,7 @@ jobs:
           cd -
 
           sed -i "/pkgver=/c\pkgver='$PKGVER'" ./PKGBUILD
-          sed -i "/_tag=/c\_tag='$TAG_FOR_PKGBUILD'" ./PKGBUILD
+          sed -i "/_tag=/c\_tag='$TAG'" ./PKGBUILD
           sed -i "/sha256sums=/c\sha256sums=('$ZIP_SHA')" ./PKGBUILD
 
           chown -R abohiccups:abohiccups .
