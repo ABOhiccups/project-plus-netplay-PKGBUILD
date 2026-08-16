@@ -30,10 +30,7 @@ jobs:
           cd /tmp/Project-Plus-Dolphin
 
           PKGVER=$(git tag | tail -n 2 | head -n 1 | cut -d'-' -f1)
-          TAG=$(git tag | tail -n 2 | head -n 1 | cut -d'-' -f1)
-
-          # Remove trailing ".0" from TAG only
-          TAG="${TAG%.0}"
+          TAG="$(git tag | tail -n 2 | head -n 1 | cut -d'-' -f1 | sed 's/\.0$//')"
 
           ZIP_SHA="$(curl -L "https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$PKGVER/Project+.$TAG.Netplay.Linux.AppImage.zip" | sha256sum | sed 's/  -//')"
 
