@@ -32,10 +32,10 @@ jobs:
           TAG=$(git tag | tail -n 2 | head -n 1 | cut -d'-' -f1)
           PKGVER="${TAG//-/.}"
 
-          # Remove one trailing "0" from _tag only
-          TAG_FOR_PKGBUILD="${TAG%0}"
+          # Remove ".0" from _tag only when the version ends in ".0"
+          TAG_FOR_PKGBUILD="${TAG%\.0}"
 
-          ZIP_SHA="$(curl -L https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$TAG/Project+.$TAG.Netplay.Linux.AppImage.zip | sha256sum | sed 's/  -//')"
+          ZIP_SHA="$(curl -L "https://github.com/Project-Plus-Development-Team/Project-Plus-Dolphin/releases/download/$TAG/Project+.$TAG.Netplay.Linux.AppImage.zip" | sha256sum | sed 's/  -//')"
 
           cd -
 
